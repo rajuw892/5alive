@@ -1,0 +1,109 @@
+// backend/prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  username  String
+  email     String?  @unique
+  isGuest   Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  gamesPlayed GamePlayer[]
+  roomsHosted Room[]       @relation("RoomHost")
+
+  @@index([email])
+}
+
+model Room {
+  id          String   @id @default(cuid())
+  hostId      String
+  maxPlayers  Int      @default(6)
+  password    String?
+  status      RoomStatus @default(WAITING)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  host        User     @relation("RoomHost", fields: [hostId], references: [id])
+  games       Game[]
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+model Game {
+  id           String     @id @default(cuid())
+  roomId       String
+  status       GameStatus @default(IN_PROGRESS)
+  winnerId     String?
+  startedAt    DateTime   @default(now())
+  finishedAt   DateTime?
+  totalRounds  Int        @default(0)
+  
+  // Relations
+  room         Room       @relation(fields: [roomId], references: [id])
+  players      GamePlayer[]
+  rounds       GameRound[]
+
+  @@index([roomId])
+  @@index([status])
+}
+
+model GamePlayer {
+  id              String   @id @default(cuid())
+  gameId          String
+  userId          String
+  username        String
+  position        Int
+  livesRemaining  Int      @default(5)
+  isEliminated    Boolean  @default(false)
+  finalPosition   Int?
+  createdAt       DateTime @default(now())
+
+  // Relations
+  game            Game     @relation(fields: [gameId], references: [id])
+  user            User     @relation(fields: [userId], references: [id])
+
+  @@unique([gameId, userId])
+  @@index([gameId])
+  @@index([userId])
+}
+
+model GameRound {
+  id             String   @id @default(cuid())
+  gameId         String
+  roundNumber    Int
+  startingTotal  Int      @default(0)
+  endingTotal    Int
+  cardsPlayed    Json     // Array of card plays
+  events         Json     // Array of game events
+  createdAt      DateTime @default(now())
+
+  // Relations
+  game           Game     @relation(fields: [gameId], references: [id])
+
+  @@unique([gameId, roundNumber])
+  @@index([gameId])
+}
+
+enum RoomStatus {
+  WAITING
+  IN_GAME
+  FINISHED
+}
+
+enum GameStatus {
+  IN_PROGRESS
+  FINISHED
+  ABANDONED
+}
