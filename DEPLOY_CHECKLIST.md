@@ -46,12 +46,12 @@ git push -u origin main
 2. Sign up (free)
 3. Create New Project:
    - Name: `5alive`
-   - Password: `_______________` (write it down!)
+   - Password: `@@@Rajuu1` (write it down!)
    - Region: _____________
 4. Get connection string:
    - Settings → Database → Connection Pooling
    - Copy URI format
-   - Save here: `_________________________________`
+   - Save here: `postgresql://postgres:@@@Rajuu1@db.nohhnjvklswblducehoq.supabase.co:5432/postgres`
 
 **Status**: [ ] Done
 
@@ -65,7 +65,7 @@ git push -u origin main
    - Name: `5alive-redis`
    - Type: Regional
 4. Copy Redis URL
-5. Save here: `_________________________________`
+5. Save here: `redis-cli --tls -u redis://default:AUJAAAIncDI2ODc1NTBjZGFiZWU0M2RkYTEyODIwNzQ0ZTg0YmQyM3AyMTY5NjA@fond-stallion-16960.upstash.io:6379`
 
 **Status**: [ ] Done
 
@@ -88,8 +88,8 @@ git push -u origin main
    ```
    NODE_ENV=production
    PORT=5000
-   DATABASE_URL=<your Supabase URL>
-   REDIS_URL=<your Upstash URL>
+   DATABASE_URL=postgresql://postgres:@@@Rajuu1@db.nohhnjvklswblducehoq.supabase.co:5432/postgres
+   REDIS_URL=redis-cli --tls -u redis://default:AUJAAAIncDI2ODc1NTBjZGFiZWU0M2RkYTEyODIwNzQ0ZTg0YmQyM3AyMTY5NjA@fond-stallion-16960.upstash.io:6379
    JWT_SECRET=<generate random 32 characters>
    JWT_EXPIRES_IN=7d
    CORS_ORIGIN=*
