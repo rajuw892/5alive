@@ -1,6 +1,6 @@
 // src/services/roomManager.service.ts
 import { v4 as uuidv4 } from 'uuid';
-import { Room, Player } from '../types/game.types';
+import { Room, Player } from '../types/game.types.js';
 
 export class RoomManager {
   private rooms: Map<string, Room> = new Map();

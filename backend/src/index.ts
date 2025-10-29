@@ -4,7 +4,7 @@ import { Server } from 'socket.io';
 import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
-import { GameSocket } from './socket/gameSocket';
+import { GameSocket } from './socket/gameSocket.js';
 import { generateVoiceToken } from './controllers/voiceController.js';
 
 dotenv.config();

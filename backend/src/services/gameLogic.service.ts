@@ -1,13 +1,13 @@
 // backend/src/services/gameLogic.service.ts
-import { 
-  GameState, 
-  Player, 
-  Card, 
+import {
+  GameState,
+  Player,
+  Card,
   Direction,
   INITIAL_LIVES,
   INITIAL_CARDS,
   MAX_TOTAL
-} from '../types/game.types';
+} from '../types/game.types.js';
 import {
   createDeck,
   shuffleDeck,
@@ -16,7 +16,7 @@ import {
   findZeroCards,
   drawCardsFromDeck,
   redealAllHands
-} from '../utils/cardDeck.util';
+} from '../utils/cardDeck.util.js';
 
 // Card play effect types
 export interface CardPlayEffect {

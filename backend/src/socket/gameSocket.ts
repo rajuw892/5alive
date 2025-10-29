@@ -7,9 +7,9 @@ import {
   ChatMessagePayload,
   Player,
   Room
-} from '../types/game.types';
-import { RoomManager } from '../services/roomManager.services';
-import { GameLogic } from '../services/gameLogic.service';
+} from '../types/game.types.js';
+import { RoomManager } from '../services/roomManager.services.js';
+import { GameLogic } from '../services/gameLogic.service.js';
 
 export class GameSocket {
   private io: Server;

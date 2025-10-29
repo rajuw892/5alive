@@ -1,6 +1,6 @@
 // backend/src/utils/cardDeck.util.ts
 import { v4 as uuidv4 } from 'uuid';
-import { Card, WildType } from '../types/game.types';
+import { Card, WildType } from '../types/game.types.js';
 
 /**
  * Creates a complete 5 Alive deck based on official rules
