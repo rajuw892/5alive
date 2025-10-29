@@ -1,7 +1,7 @@
 // frontend/src/components/Room/RoomLobby.tsx
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Copy, Check, Crown, Users, Play, LogOut, Share2 } from 'lucide-react';
+import { Copy, Check, Crown, Users, Play, LogOut } from 'lucide-react';
 import { Player } from '../../types/game.types';
 
 interface RoomLobbyProps {

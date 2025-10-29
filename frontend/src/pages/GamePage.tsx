@@ -21,7 +21,6 @@ export const GamePage: React.FC = () => {
     cannotPlay,
     startGame,
     leaveRoom,
-    error,
   } = useGame();
 
   // Redirect if no room

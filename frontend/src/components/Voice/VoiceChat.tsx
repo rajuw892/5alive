@@ -3,12 +3,10 @@ import React, { useEffect, useState } from 'react';
 import AgoraRTC, {
   IAgoraRTCClient,
   IAgoraRTCRemoteUser,
-  ICameraVideoTrack,
   IMicrophoneAudioTrack,
 } from 'agora-rtc-sdk-ng';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mic, MicOff, Volume2, VolumeX, Phone, PhoneOff } from 'lucide-react';
-import { useVoice } from '../../contexts/VoiceContext';
+import { Mic, MicOff, Volume2, VolumeX, PhoneOff } from 'lucide-react';
 
 interface VoiceChatProps {
   roomId: string;
@@ -16,8 +14,6 @@ interface VoiceChatProps {
   username: string;
   onError?: (error: string) => void;
 }
-
-const APP_ID = import.meta.env.VITE_AGORA_APP_ID || 'a017a84c07a846eda3bb5b0466e88f73';
 
 export const VoiceChat: React.FC<VoiceChatProps> = ({
   roomId,

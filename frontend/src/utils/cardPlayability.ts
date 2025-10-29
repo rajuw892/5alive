@@ -1,5 +1,5 @@
 // frontend/src/utils/cardPlayability.ts
-import { Card, GameState } from '../types/game.types';
+import { Card } from '../types/game.types';
 
 /**
  * Determines if a card can be played based on the current game state
@@ -7,7 +7,7 @@ import { Card, GameState } from '../types/game.types';
 export function isCardPlayable(
   card: Card,
   runningTotal: number,
-  hasZeroCards: boolean
+  _hasZeroCards: boolean
 ): boolean {
   // Wild cards can always be played (they have special effects)
   if (card.type === 'wild') {

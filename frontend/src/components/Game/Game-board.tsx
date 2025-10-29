@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card as CardType, Player, GameState } from '../../types/game.types';
 import { Card } from '../UI/Card';
-import { Volume2, VolumeX, Users, Trophy, LogOut, Settings, Mic, MicOff } from 'lucide-react';
+import { Volume2, VolumeX, Users, LogOut, Mic, MicOff } from 'lucide-react';
 import { useSoundEffects } from '../../hooks/useSoundEffects';
 import { isCardPlayable } from '../../utils/cardPlayability';
 import { useVoiceChat } from '../../hooks/useVoiceChat';
@@ -40,7 +40,6 @@ export const GameBoard: React.FC<GameBoardProps> = ({
     isMuted: voiceMuted,
     isConnecting,
     speakingUsers,
-    error: voiceError,
     toggleMute: toggleVoiceMute,
   } = useVoiceChat({
     roomId: gameState.roomId,

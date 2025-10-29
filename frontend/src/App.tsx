@@ -1,5 +1,4 @@
 // frontend/src/App.tsx
-import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Home } from './pages/Home-page';
 import { GamePage } from './pages/GamePage';

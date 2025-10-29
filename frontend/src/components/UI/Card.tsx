@@ -39,7 +39,6 @@ export const Card: React.FC<CardProps> = ({
   isPlayable = true,
 }) => {
   const isWild = card.type === 'wild';
-  const canInteract = !disabled && isPlayable;
 
   const getCardColor = () => {
     if (isWild) {

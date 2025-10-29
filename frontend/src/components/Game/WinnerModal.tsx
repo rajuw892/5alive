@@ -1,7 +1,7 @@
 // frontend/src/components/Game/WinnerModal.tsx
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Trophy, Home, RotateCcw, Crown } from 'lucide-react';
+import { Home, RotateCcw, Crown } from 'lucide-react';
 import { Player } from '../../types/game.types';
 import { useSoundEffects } from '../../hooks/useSoundEffects';
 import { useNavigate } from 'react-router-dom';
