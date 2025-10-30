@@ -1,6 +1,5 @@
 // frontend/src/components/UI/NotificationContainer.tsx
 import React from 'react';
-import { motion } from 'framer-motion';
 import Notification, { NotificationData } from './Notification';
 
 interface NotificationContainerProps {
