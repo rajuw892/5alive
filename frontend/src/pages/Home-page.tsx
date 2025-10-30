@@ -49,25 +49,25 @@ export const Home: React.FC = () => {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center p-4">
+      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center p-4 py-6">
         {/* Logo & Title */}
         <motion.div
           initial={{ y: -50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-12"
+          className="text-center mb-6 md:mb-8"
         >
           <motion.div
             animate={{ rotate: [0, 5, -5, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
-            className="text-9xl mb-4"
+            className="text-6xl md:text-7xl mb-2"
           >
             🎴
           </motion.div>
-          <h1 className="text-7xl font-black text-white mb-4 drop-shadow-2xl">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-2 drop-shadow-2xl">
             5 ALIVE
           </h1>
-          <p className="text-xl text-blue-200 font-semibold">
+          <p className="text-base md:text-lg text-blue-200 font-semibold">
             The Ultimate Card Game Experience
           </p>
         </motion.div>
@@ -79,86 +79,86 @@ export const Home: React.FC = () => {
           transition={{ delay: 0.3, duration: 0.5 }}
           className="w-full max-w-md"
         >
-          <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-white/20">
+          <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-5 md:p-6 shadow-2xl border border-white/20">
             {/* Action Buttons */}
-            <div className="space-y-4">
+            <div className="space-y-3">
               <motion.button
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setShowCreateModal(true)}
-                className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white py-5 px-6 rounded-2xl font-bold text-xl shadow-xl flex items-center justify-center gap-3 transition-all"
+                className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white py-3 md:py-4 px-4 md:px-6 rounded-2xl font-bold text-lg md:text-xl shadow-xl flex items-center justify-center gap-2 md:gap-3 transition-all"
               >
-                <Plus className="w-6 h-6" />
+                <Plus className="w-5 h-5 md:w-6 md:h-6" />
                 Create Room
-                <Sparkles className="w-5 h-5" />
+                <Sparkles className="w-4 h-4 md:w-5 md:h-5" />
               </motion.button>
 
               <motion.button
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => navigate('/rooms')}
-                className="w-full bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white py-5 px-6 rounded-2xl font-bold text-xl shadow-xl flex items-center justify-center gap-3 transition-all"
+                className="w-full bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white py-3 md:py-4 px-4 md:px-6 rounded-2xl font-bold text-lg md:text-xl shadow-xl flex items-center justify-center gap-2 md:gap-3 transition-all"
               >
-                <Users className="w-6 h-6" />
+                <Users className="w-5 h-5 md:w-6 md:h-6" />
                 Browse Rooms
-                <Trophy className="w-5 h-5" />
+                <Trophy className="w-4 h-4 md:w-5 md:h-5" />
               </motion.button>
 
               <motion.button
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setShowJoinModal(true)}
-                className="w-full bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 text-white py-5 px-6 rounded-2xl font-bold text-xl shadow-xl flex items-center justify-center gap-3 transition-all"
+                className="w-full bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 text-white py-3 md:py-4 px-4 md:px-6 rounded-2xl font-bold text-lg md:text-xl shadow-xl flex items-center justify-center gap-2 md:gap-3 transition-all"
               >
-                <LogIn className="w-6 h-6" />
+                <LogIn className="w-5 h-5 md:w-6 md:h-6" />
                 Join with Code
-                <Zap className="w-5 h-5" />
+                <Zap className="w-4 h-4 md:w-5 md:h-5" />
               </motion.button>
             </div>
 
             {/* Features */}
-            <div className="mt-8 pt-8 border-t border-white/20">
-              <div className="grid grid-cols-3 gap-4 text-center">
+            <div className="mt-5 md:mt-6 pt-5 md:pt-6 border-t border-white/20">
+              <div className="grid grid-cols-3 gap-3 text-center">
                 <div>
-                  <div className="text-3xl mb-2">👥</div>
-                  <div className="text-white text-sm font-semibold">2-6 Players</div>
+                  <div className="text-2xl md:text-3xl mb-1">👥</div>
+                  <div className="text-white text-xs md:text-sm font-semibold">2-6 Players</div>
                 </div>
                 <div>
-                  <div className="text-3xl mb-2">🎤</div>
-                  <div className="text-white text-sm font-semibold">Voice Chat</div>
+                  <div className="text-2xl md:text-3xl mb-1">🎤</div>
+                  <div className="text-white text-xs md:text-sm font-semibold">Voice Chat</div>
                 </div>
                 <div>
-                  <div className="text-3xl mb-2">⚡</div>
-                  <div className="text-white text-sm font-semibold">Real-time</div>
+                  <div className="text-2xl md:text-3xl mb-1">⚡</div>
+                  <div className="text-white text-xs md:text-sm font-semibold">Real-time</div>
                 </div>
               </div>
             </div>
           </div>
         </motion.div>
 
-        {/* How to Play */}
+        {/* How to Play - Compact Version */}
         <motion.div
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.6, duration: 0.5 }}
-          className="mt-12 text-center max-w-2xl"
+          className="mt-6 md:mt-8 text-center max-w-2xl w-full"
         >
-          <h3 className="text-white text-2xl font-bold mb-4">How to Play</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-white/5 backdrop-blur p-4 rounded-xl border border-white/10">
-              <div className="text-4xl mb-2">1️⃣</div>
-              <div className="text-white font-semibold mb-1">Play Cards</div>
-              <div className="text-blue-200 text-sm">Keep the total under 21</div>
+          <h3 className="text-white text-lg md:text-xl font-bold mb-3">How to Play</h3>
+          <div className="grid grid-cols-3 gap-2 md:gap-3">
+            <div className="bg-white/5 backdrop-blur p-2 md:p-3 rounded-xl border border-white/10">
+              <div className="text-2xl md:text-3xl mb-1">1️⃣</div>
+              <div className="text-white text-xs md:text-sm font-semibold mb-0.5">Play Cards</div>
+              <div className="text-blue-200 text-[10px] md:text-xs">Keep ≤ 21</div>
             </div>
-            <div className="bg-white/5 backdrop-blur p-4 rounded-xl border border-white/10">
-              <div className="text-4xl mb-2">2️⃣</div>
-              <div className="text-white font-semibold mb-1">Use Wildcards</div>
-              <div className="text-blue-200 text-sm">Special powers to win</div>
+            <div className="bg-white/5 backdrop-blur p-2 md:p-3 rounded-xl border border-white/10">
+              <div className="text-2xl md:text-3xl mb-1">2️⃣</div>
+              <div className="text-white text-xs md:text-sm font-semibold mb-0.5">Wildcards</div>
+              <div className="text-blue-200 text-[10px] md:text-xs">Special powers</div>
             </div>
-            <div className="bg-white/5 backdrop-blur p-4 rounded-xl border border-white/10">
-              <div className="text-4xl mb-2">3️⃣</div>
-              <div className="text-white font-semibold mb-1">Last One Wins</div>
-              <div className="text-blue-200 text-sm">Don't lose all 5 lives</div>
+            <div className="bg-white/5 backdrop-blur p-2 md:p-3 rounded-xl border border-white/10">
+              <div className="text-2xl md:text-3xl mb-1">3️⃣</div>
+              <div className="text-white text-xs md:text-sm font-semibold mb-0.5">Last Wins</div>
+              <div className="text-blue-200 text-[10px] md:text-xs">5 lives max</div>
             </div>
           </div>
         </motion.div>

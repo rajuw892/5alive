@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useEffect, useState, useCallback, ReactNode } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { GameState, Player, Card } from '../types/game.types';
+import { NotificationData } from '../components/UI/Notification';
 
 interface GameContextType {
   socket: Socket | null;
@@ -11,6 +12,7 @@ interface GameContextType {
   currentPlayer: Player | null;
   isMyTurn: boolean;
   players: Player[];
+  notifications: NotificationData[];
   createRoom: (username: string, maxPlayers?: number, password?: string) => void;
   joinRoom: (roomId: string, username: string, password?: string) => void;
   startGame: () => void;
@@ -19,6 +21,7 @@ interface GameContextType {
   sendMessage: (message: string) => void;
   toggleMic: (muted: boolean) => void;
   leaveRoom: () => void;
+  removeNotification: (id: string) => void;
   error: string | null;
   isConnected: boolean;
 }
@@ -34,6 +37,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [myHand, setMyHand] = useState<Card[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isConnected, setIsConnected] = useState(false);
+  const [notifications, setNotifications] = useState<NotificationData[]>([]);
 
   // Initialize socket connection
   useEffect(() => {
@@ -170,6 +174,16 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       // Handle visual effects, animations, etc.
     });
 
+    // Notification events
+    socket.on('game-notification', (notification: Omit<NotificationData, 'id'>) => {
+      console.log('Game notification:', notification);
+      const newNotification: NotificationData = {
+        ...notification,
+        id: Date.now().toString() + Math.random().toString(),
+      };
+      setNotifications(prev => [...prev, newNotification]);
+    });
+
     // Chat events
     socket.on('message-received', ({ username, message }) => {
       console.log(`${username}: ${message}`);
@@ -184,6 +198,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       socket.off('game-started');
       socket.off('game-state-update');
       socket.off('game-effect');
+      socket.off('game-notification');
       socket.off('message-received');
     };
   }, [socket]);
@@ -283,7 +298,13 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setRoomId(null);
     setGameState(null);
     setMyHand([]);
+    setNotifications([]);
   }, [socket, roomId]);
+
+  // Remove notification
+  const removeNotification = useCallback((id: string) => {
+    setNotifications(prev => prev.filter(n => n.id !== id));
+  }, []);
 
   // Computed values
   const currentPlayer = gameState?.players[gameState.currentPlayerIndex] || null;
@@ -298,6 +319,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     currentPlayer,
     isMyTurn,
     players,
+    notifications,
     createRoom,
     joinRoom,
     startGame,
@@ -306,6 +328,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     sendMessage,
     toggleMic,
     leaveRoom,
+    removeNotification,
     error,
     isConnected,
   };

@@ -1,13 +1,30 @@
 // src/services/roomManager.service.ts
-import { v4 as uuidv4 } from 'uuid';
 import { Room, Player } from '../types/game.types.js';
 
 export class RoomManager {
   private rooms: Map<string, Room> = new Map();
 
+  /**
+   * Generates a short, readable room code (6 uppercase alphanumeric characters)
+   */
+  private generateRoomCode(): string {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let code = '';
+
+    // Keep generating until we get a unique code
+    do {
+      code = '';
+      for (let i = 0; i < 6; i++) {
+        code += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+    } while (this.rooms.has(code));
+
+    return code;
+  }
+
   createRoom(host: Player, maxPlayers: number = 6, password?: string): Room {
     const room: Room = {
-      id: uuidv4(),
+      id: this.generateRoomCode(),
       hostId: host.id,
       players: [host],
       maxPlayers,

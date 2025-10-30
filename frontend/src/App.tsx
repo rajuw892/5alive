@@ -3,11 +3,14 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Home } from './pages/Home-page';
 import { GamePage } from './pages/GamePage';
 import { RoomList } from './pages/RoomList';
-import { GameProvider } from './contexts/GameContext';
+import { GameProvider, useGame } from './contexts/GameContext';
+import { NotificationContainer } from './components/UI/NotificationContainer';
 
-function App() {
+function AppContent() {
+  const { notifications, removeNotification } = useGame();
+
   return (
-    <GameProvider>
+    <>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -15,6 +18,18 @@ function App() {
           <Route path="/game" element={<GamePage />} />
         </Routes>
       </BrowserRouter>
+      <NotificationContainer
+        notifications={notifications}
+        onClose={removeNotification}
+      />
+    </>
+  );
+}
+
+function App() {
+  return (
+    <GameProvider>
+      <AppContent />
     </GameProvider>
   );
 }

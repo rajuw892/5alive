@@ -14,8 +14,7 @@ import {
   dealCards,
   calculateNewTotal,
   findZeroCards,
-  drawCardsFromDeck,
-  redealAllHands
+  drawCardsFromDeck
 } from '../utils/cardDeck.util.js';
 
 // Card play effect types
@@ -278,12 +277,14 @@ export class GameLogic {
           if (p.id !== player.id && !p.isEliminated) {
             const zeroCards = findZeroCards(p.hand);
             if (zeroCards.length > 0) {
-              // Player discards a 0
-              p.hand = p.hand.filter(c => c.id !== zeroCards[0].id);
+              // Player discards ALL zero cards
+              const zeroCardIds = zeroCards.map(c => c.id);
+              p.hand = p.hand.filter(c => !zeroCardIds.includes(c.id));
               effects.push({
                 type: 'bomb-defended',
                 playerId: p.id,
-                cardDiscarded: zeroCards[0],
+                count: zeroCards.length,
+                reason: `Discarded ${zeroCards.length} zero card${zeroCards.length > 1 ? 's' : ''}`,
               });
             } else {
               // Player loses a life
@@ -307,29 +308,49 @@ export class GameLogic {
         break;
 
       case 'hand-in-redeal':
-        // Collect all player hands
-        const playerHands = gameState.players.map(p => p.hand);
+        // Collect all cards from all players (only from non-eliminated players)
+        const allCardsToRedistribute: Card[] = [];
 
-        // Redeal all cards
-        const { hands, remainingDeck, newDiscardPile } = redealAllHands(
-          playerHands,
-          gameState.discardPile,
-          gameState.deck,
-          INITIAL_CARDS
-        );
-
-        // Update game state
-        gameState.players.forEach((p, index) => {
-          p.hand = hands[index];
+        gameState.players.forEach(p => {
+          if (!p.isEliminated) {
+            allCardsToRedistribute.push(...p.hand);
+            p.hand = []; // Clear their hand
+          }
         });
-        gameState.deck = remainingDeck;
-        gameState.deckCount = remainingDeck.length;
-        gameState.discardPile = newDiscardPile;
-        gameState.runningTotal = 0; // Reset total after redeal
+
+        // Shuffle all collected cards
+        const shuffledCards = shuffleDeck(allCardsToRedistribute);
+
+        // Count non-eliminated players
+        const activePlayers = gameState.players.filter(p => !p.isEliminated);
+        const cardsPerPlayer = Math.floor(shuffledCards.length / activePlayers.length);
+        const remainingCards = shuffledCards.length % activePlayers.length;
+
+        // Redistribute cards equally among active players
+        let cardIndex = 0;
+        gameState.players.forEach(p => {
+          if (!p.isEliminated) {
+            // Give each player their equal share
+            p.hand = shuffledCards.slice(cardIndex, cardIndex + cardsPerPlayer);
+            cardIndex += cardsPerPlayer;
+          }
+        });
+
+        // If there are remaining cards (not divisible equally), add them to the deck
+        if (remainingCards > 0) {
+          const leftoverCards = shuffledCards.slice(cardIndex);
+          gameState.deck = [...gameState.deck, ...leftoverCards];
+          gameState.deckCount = gameState.deck.length;
+        }
+
+        // Reset running total to 0
+        gameState.runningTotal = 0;
 
         effects.push({
           type: 'hand-in-redeal',
-          reason: 'All cards reshuffled and redealt'
+          playerId: player.id,
+          count: cardsPerPlayer,
+          reason: `All cards redistributed equally (${cardsPerPlayer} cards per player)`
         });
         break;
     }

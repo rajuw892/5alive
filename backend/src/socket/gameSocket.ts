@@ -161,6 +161,11 @@ export class GameSocket {
   private handleLeaveRoom(socket: Socket): void {
     socket.on('leave-room', async ({ roomId }: { roomId: string }) => {
       try {
+        const room = this.roomManager.getRoom(roomId);
+        const leavingPlayer = room?.players.find((p: Player) => p.id === socket.id);
+        const playerCount = room?.players.length || 0;
+        const wasPlaying = room?.gameState?.phase === 'playing';
+
         const result = this.roomManager.leaveRoom(roomId, socket.id);
 
         if (result.newHost) {
@@ -170,14 +175,29 @@ export class GameSocket {
           });
         }
 
-        // Notify others
+        // Notify others with detailed information
         this.io.to(roomId).emit('player-left', {
           playerId: socket.id,
+          playerName: leavingPlayer?.username || 'Unknown',
           room: result.room,
+          wasPlaying,
+          remainingPlayers: result.room?.players.length || 0,
+          playerCount: playerCount - 1,
         });
 
+        // Send notification to all players in room
+        if (leavingPlayer) {
+          this.io.to(roomId).emit('game-notification', {
+            type: 'player-left',
+            message: `${leavingPlayer.username} left the game`,
+            severity: wasPlaying ? 'error' : 'warning',
+            playerId: socket.id,
+            playerName: leavingPlayer.username,
+          });
+        }
+
         socket.leave(roomId);
-        console.log(`Player ${socket.id} left room: ${roomId}`);
+        console.log(`Player ${socket.id} (${leavingPlayer?.username}) left room: ${roomId}`);
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Unknown error';
         socket.emit('error', {
@@ -409,6 +429,9 @@ export class GameSocket {
       const rooms = this.roomManager.findPlayerRooms(socket.id);
       rooms.forEach(room => {
         try {
+          const leavingPlayer = room.players.find((p: Player) => p.id === socket.id);
+          const wasPlaying = room.gameState?.phase === 'playing';
+
           const result = this.roomManager.leaveRoom(room.id, socket.id);
 
           if (result.newHost) {
@@ -419,8 +442,22 @@ export class GameSocket {
 
           this.io.to(room.id).emit('player-left', {
             playerId: socket.id,
+            playerName: leavingPlayer?.username || 'Unknown',
             room: result.room,
+            wasPlaying,
+            remainingPlayers: result.room?.players.length || 0,
           });
+
+          // Send notification to all players in room
+          if (leavingPlayer) {
+            this.io.to(room.id).emit('game-notification', {
+              type: 'player-disconnected',
+              message: `${leavingPlayer.username} disconnected`,
+              severity: wasPlaying ? 'error' : 'warning',
+              playerId: socket.id,
+              playerName: leavingPlayer.username,
+            });
+          }
         } catch (error) {
           console.error('Error handling disconnect:', error);
         }
